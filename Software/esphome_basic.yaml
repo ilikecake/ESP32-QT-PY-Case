@@ -1,0 +1,55 @@
+esphome:
+  name: sensor
+  friendly_name: Sensor
+
+esp32:
+  board: adafruit_qtpy_esp32s3_nopsram
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret WIFI password
+
+captive_portal:
+    
+i2c:
+  sda: SDA1
+  scl: SCL1
+  scan: true
+
+bme68x_bsec2_i2c:
+  address: 0x77
+  model: bme688
+  operating_age: 28d
+  sample_rate: LP
+  supply_voltage: 3.3V
+
+sensor:
+  - platform: bme68x_bsec2
+    temperature:
+      name: "BME688 Temperature"
+    pressure:
+      name: "BME688 Pressure"
+    humidity:
+      name: "BME688 Humidity"
+    iaq:
+      name: "BME688 IAQ"
+      id: iaq
+    co2_equivalent:
+      name: "BME688 CO2 Equivalent"
+    breath_voc_equivalent:
+      name: "BME688 Breath VOC Equivalent"
+
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812X
+    pin: PIN_NEOPIXEL
+    num_leds: 1
+    name: "NeoPixel Light"
